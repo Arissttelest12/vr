@@ -160,8 +160,9 @@ html, body {
 .modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 1.5rem;
+    gap: 1rem;
 }
 
 .modal-title {
@@ -172,25 +173,28 @@ html, body {
 }
 
 .modal-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-size: clamp(1.5rem, 6vw, 2rem);
     color: #ffffff;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 50%;
     transition: all 0.2s ease;
-    width: 40px;
-    height: 40px;
+    width: clamp(40px, 10vw, 50px);
+    height: clamp(40px, 10vw, 50px);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
-.modal-close:hover {
-    background: rgba(255, 255, 255, 0.35);
+.modal-close:hover,
+.modal-close:active {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
     color: #ffffff;
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .lyric-text {

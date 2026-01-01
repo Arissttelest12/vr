@@ -453,17 +453,21 @@ function setupDeviceOrientationControls() {
                     if (permission === 'granted') {
                         deviceOrientationControls.connect();
                         document.getElementById('enable-motion').classList.add('hidden');
+                        console.log('DeviceOrientation connected');
                     }
                 } catch (error) {
                     console.log('Permission denied:', error);
                 }
             });
         } else {
+            // Auto-connect for Android
             deviceOrientationControls.connect();
             document.getElementById('enable-motion').classList.add('hidden');
+            console.log('DeviceOrientation auto-connected (Android)');
         }
     } catch (error) {
         console.log('DeviceOrientationControls not supported:', error);
+        // Fallback to mouse-follow for desktop
         setupMouseFollowControls();
     }
 }
@@ -479,7 +483,8 @@ function setupEventListeners() {
 // Setup UI event listeners
 function setupUI() {
     document.addEventListener('click', (e) => {
-        if (currentModal && e.target.classList.contains('modal-overlay')) {
+        // Only close if clicking on the overlay background, NOT on the content
+        if (currentModal && e.target === currentModal) {
             closeModal();
         }
     });
@@ -526,7 +531,18 @@ function createModal(material) {
         </div>
     `;
     
-    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    // Close button click handler - prevent event bubbling
+    const closeBtn = modal.querySelector('.modal-close');
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering parent close
+        closeModal();
+    });
+    
+    // Prevent modal from closing when clicking inside content
+    const modalContent = modal.querySelector('.modal-content');
+    modalContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
     
     return modal;
 }
@@ -613,6 +629,12 @@ function animate() {
     if (deviceOrientationControls && deviceOrientationControls.enabled) {
         deviceOrientationControls.update();
     }
+    // Debug: Log button positions every 60 frames for mobile
+    if (isMobile && Math.random() < 0.016) { // ~60 FPS
+        console.log('Mobile - Buttons in view:', buttons3D.length, 
+                    'Center gaze object:', centerGazeObject ? centerGazeObject.userData.id : 'none');
+    }
+    
     
     // Update gaze highlight EVERY FRAME - this is the key fix!
     updateGazeHighlight();
