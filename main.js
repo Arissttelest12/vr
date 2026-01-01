@@ -397,6 +397,9 @@ function setupRaycaster() {
     
     // Click detection - desktop
     renderer.domElement.addEventListener('click', () => {
+        // Don't trigger if modal is open
+        if (currentModal) return;
+        
         if (centerGazeObject && centerGazeObject.userData.isButton) {
             showMaterialModal(centerGazeObject.userData.id);
         }
@@ -404,6 +407,9 @@ function setupRaycaster() {
     
     // Touch/tap detection for mobile - IMPROVED
     renderer.domElement.addEventListener('touchstart', (e) => {
+        // Don't trigger if modal is open
+        if (currentModal) return;
+        
         // Prevent default to avoid scroll interference
         if (centerGazeObject && centerGazeObject.userData.isButton) {
             e.preventDefault();
@@ -530,6 +536,19 @@ function createModal(material) {
             <div class="material-text">${material.content}</div>
         </div>
     `;
+    
+    // Prevent all touch/click events inside modal from bubbling to renderer
+    modal.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+    });
+    
+    modal.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+    });
+    
+    modal.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
     
     // Close button click handler - prevent event bubbling
     const closeBtn = modal.querySelector('.modal-close');
