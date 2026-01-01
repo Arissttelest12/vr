@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR-Like Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Aplikasi web VR-like interaktif tanpa headset">
+<base target="_blank">
+</head>
+<body>
+    <div id="container">
+        <!-- Three.js Scene Container -->
+        <div id="scene-container"></div>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay">
+            <!-- Header dengan judul -->
+            <div id="header">
+                <h1>VR-Aritmathic</h1>
+                <p id="instructions">Drag mouse untuk memutar pandangan</p>
+            </div>
+            
+            <!-- Tombol Lirik -->
+            <div id="button-container">
+                <button class="lyric-button" data-lyric="1">
+                    <span class="button-text">Lirik 1</span>
+                </button>
+                <button class="lyric-button" data-lyric="2">
+                    <span class="button-text">Lirik 2</span>
+                </button>
+                <button class="lyric-button" data-lyric="3">
+                    <span class="button-text">Lirik 3</span>
+                </button>
+            </div>
+            
+            <!-- Modal Container (akan diisi oleh JavaScript) -->
+            <div id="modal-container"></div>
+            
+            <!-- Enable Motion Button (untuk iOS) -->
+            <button id="enable-motion" class="hidden">
+                <span>Enable Motion</span>
+            </button>
+        </div>
+        
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>Memuat pengalaman...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Three.js Controls -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DeviceOrientationControls.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+</body>
+</html>

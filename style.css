@@ -1,0 +1,420 @@
+
+/* Reset dan Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Scene Container */
+#scene-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* UI Overlay */
+#ui-overlay {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+/* Header */
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: clamp(1rem, 5vw, 2rem);
+    text-align: center;
+    pointer-events: none;
+    z-index: 20;
+}
+
+#header h1 {
+    color: white;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+#instructions {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Container */
+#button-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: clamp(1rem, 5vw, 2rem);
+    padding-bottom: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-bottom, 1rem));
+    display: none;
+    justify-content: center;
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+    pointer-events: auto;
+    z-index: 20;
+}
+
+/* Lyric Buttons */
+.lyric-button {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50px;
+    padding: clamp(0.75rem, 3vw, 1.25rem) clamp(1.5rem, 6vw, 2.5rem);
+    color: #667eea;
+    font-size: clamp(0.875rem, 3.5vw, 1.125rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    min-width: 0;
+    flex: 1;
+    max-width: 200px;
+}
+
+.lyric-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    background: white;
+}
+
+.lyric-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+.lyric-button.active {
+    background: #667eea;
+    color: white;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 100;
+    pointer-events: auto;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    border-radius: 20px 20px 0 0;
+    padding: clamp(1.5rem, 6vw, 2.5rem);
+    max-width: 500px;
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    animation: slideUp 0.3s ease forwards;
+    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.modal-content.active {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-title {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.lyric-text {
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
+    line-height: 1.8;
+    color: #ffffff;
+    white-space: pre-line;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.material-text {
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
+    line-height: 1.8;
+    color: #ffffff;
+    white-space: pre-line;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Enable Motion Button */
+#enable-motion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    color: #667eea;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    pointer-events: auto;
+    z-index: 30;
+    transition: all 0.3s ease;
+}
+
+#enable-motion:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+#enable-motion.hidden {
+    display: none;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+#loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+.loading-content p {
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #header {
+        padding-top: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-top, 1rem));
+    }
+    
+    .modal-content {
+        max-height: 70vh;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    #instructions {
+        font-size: clamp(0.75rem, 3vw, 0.875rem);
+    }
+}
+
+@media (max-height: 500px) {
+    #header h1 {
+        font-size: clamp(1.25rem, 4vw, 1.5rem);
+    }
+    
+    #instructions {
+        font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+    }
+    
+    .lyric-button {
+        padding: 0.5rem 1rem;
+        font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+    }
+}
+
+/* High DPI Screen Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .lyric-button,
+    .modal-content,
+    #enable-motion {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    html, body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    #header h1 {
+        color: #e0e0e0;
+    }
+    
+    #instructions {
+        color: rgba(224, 224, 224, 0.9);
+    }
+    
+    .lyric-button {
+        background: rgba(30, 30, 46, 0.95);
+        color: #a0a0e0;
+    }
+    
+    .lyric-button:hover {
+        background: rgba(40, 40, 60, 0.95);
+    }
+    
+    .modal-content {
+        background: rgba(26, 26, 38, 0.98);
+    }
+    
+    .modal-title {
+        color: #e0e0e0;
+    }
+    
+    .modal-close {
+        color: #a0a0a0;
+    }
+    
+    .modal-close:hover {
+        color: #e0e0e0;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .lyric-text {
+        color: #c0c0c0;
+    }
+    
+    #enable-motion {
+        background: rgba(30, 30, 46, 0.95);
+        color: #a0a0e0;
+    }
+}
+
+/* Reduce Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .lyric-button,
+    .modal-close,
+    #enable-motion {
+        transition: none;
+    }
+    
+    .modal-overlay,
+    .modal-content {
+        animation: none;
+    }
+    
+    .modal-overlay {
+        opacity: 1;
+    }
+    
+    .modal-content {
+        transform: translateY(0);
+    }
+}
